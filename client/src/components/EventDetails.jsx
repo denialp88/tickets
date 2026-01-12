@@ -46,48 +46,48 @@ function EventDetails({ eventData, onClose, onAddTransaction }) {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <div className="card">
             <div className="flex items-center gap-3">
-              <div className="bg-red-100 p-3 rounded-lg">
-                <ShoppingCart className="w-6 h-6 text-red-600" />
+              <div className="bg-red-900/30 p-3 rounded-lg border border-red-800">
+                <ShoppingCart className="w-6 h-6 text-red-400" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">Purchases</p>
-                <p className="text-xl font-bold text-gray-800">₹{totalPurchaseAmount.toFixed(2)}</p>
+                <p className="text-sm text-dark-muted">Purchases</p>
+                <p className="text-xl font-bold text-red-400">₹{totalPurchaseAmount.toFixed(2)}</p>
               </div>
             </div>
           </div>
 
           <div className="card">
             <div className="flex items-center gap-3">
-              <div className="bg-green-100 p-3 rounded-lg">
-                <DollarSign className="w-6 h-6 text-green-600" />
+              <div className="bg-green-900/30 p-3 rounded-lg border border-green-800">
+                <DollarSign className="w-6 h-6 text-green-400" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">Sales</p>
-                <p className="text-xl font-bold text-gray-800">₹{totalSaleAmount.toFixed(2)}</p>
+                <p className="text-sm text-dark-muted">Sales</p>
+                <p className="text-xl font-bold text-green-400">₹{totalSaleAmount.toFixed(2)}</p>
               </div>
             </div>
           </div>
 
           <div className="card">
             <div className="flex items-center gap-3">
-              <div className="bg-orange-100 p-3 rounded-lg">
-                <TrendingUp className="w-6 h-6 text-orange-600" />
+              <div className="bg-orange-900/30 p-3 rounded-lg border border-orange-800">
+                <TrendingUp className="w-6 h-6 text-orange-400" />
               </div>
               <div>
-                <p className="text-sm text-gray-600">Commission</p>
-                <p className="text-xl font-bold text-gray-800">₹{totalCommission.toFixed(2)}</p>
+                <p className="text-sm text-dark-muted">Commission</p>
+                <p className="text-xl font-bold text-orange-400">₹{totalCommission.toFixed(2)}</p>
               </div>
             </div>
           </div>
 
           <div className="card">
             <div className="flex items-center gap-3">
-              <div className={`${netProfit >= 0 ? 'bg-green-100' : 'bg-red-100'} p-3 rounded-lg`}>
-                <DollarSign className={`w-6 h-6 ${netProfit >= 0 ? 'text-green-600' : 'text-red-600'}`} />
+              <div className={`${netProfit >= 0 ? 'bg-green-900/30 border-green-800' : 'bg-red-900/30 border-red-800'} p-3 rounded-lg border`}>
+                <DollarSign className={`w-6 h-6 ${netProfit >= 0 ? 'text-green-400' : 'text-red-400'}`} />
               </div>
               <div>
-                <p className="text-sm text-gray-600">Net Profit</p>
-                <p className={`text-xl font-bold ${netProfit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                <p className="text-sm text-dark-muted">Net Profit</p>
+                <p className={`text-xl font-bold ${netProfit >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                   ₹{netProfit.toFixed(2)}
                 </p>
               </div>
@@ -96,7 +96,7 @@ function EventDetails({ eventData, onClose, onAddTransaction }) {
         </div>
 
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold text-gray-800">Transactions</h2>
+          <h2 className="text-xl font-bold text-dark-text">Transactions</h2>
           <button
             onClick={() => onAddTransaction(event)}
             className="btn-primary flex items-center gap-2"

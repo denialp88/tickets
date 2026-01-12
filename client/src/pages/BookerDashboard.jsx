@@ -73,8 +73,8 @@ function BookerDashboard({ user, onLogout }) {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-6">
-        {earnings && (
-          <div className="mb-6">
+        {earnings ? (
+          <div>
             <h2 className="text-xl font-bold text-dark-text mb-4">My Earnings</h2>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
               <div className="card">
@@ -166,43 +166,11 @@ function BookerDashboard({ user, onLogout }) {
               </div>
             )}
           </div>
+        ) : (
+          <div className="card text-center py-12">
+            <p className="text-dark-muted">Loading earnings data...</p>
+          </div>
         )}
-
-        <div className="mb-6">
-          <h2 className="text-xl font-bold text-dark-text mb-2">Add Booking</h2>
-          <p className="text-sm text-dark-muted">Select an event to add booking details</p>
-        </div>
-
-        <div className="space-y-4">
-          {events.length === 0 ? (
-            <div className="card text-center py-12">
-              <p className="text-dark-muted">No events available</p>
-            </div>
-          ) : (
-            events.map((event) => (
-              <div key={event.id} className="card">
-                <div className="mb-3">
-                  <h3 className="text-lg font-bold text-dark-text">{event.name}</h3>
-                  <p className="text-sm text-dark-muted">{event.location}</p>
-                  <p className="text-sm text-dark-muted mt-1">
-                    {new Date(event.date).toLocaleDateString()}
-                  </p>
-                </div>
-
-                <button
-                  onClick={() => {
-                    setSelectedEvent(event);
-                    setShowTransactionForm(true);
-                  }}
-                  className="btn-primary flex items-center gap-2 w-full justify-center"
-                >
-                  <Plus className="w-4 h-4" />
-                  Add Booking
-                </button>
-              </div>
-            ))
-          )}
-        </div>
       </div>
     </div>
   );

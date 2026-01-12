@@ -32,6 +32,7 @@ function BookerDashboard({ user, onLogout }) {
   const handleTransactionCreated = () => {
     setShowTransactionForm(false);
     setSelectedEvent(null);
+    loadEvents(); // Reload data to show updated earnings
   };
 
   if (loading) {
@@ -171,6 +172,43 @@ function BookerDashboard({ user, onLogout }) {
             <p className="text-dark-muted">Loading earnings data...</p>
           </div>
         )}
+
+        <div className="mt-8">
+          <h2 className="text-xl font-bold text-dark-text mb-4">Add Booking</h2>
+          <p className="text-sm text-dark-muted mb-4">Select an event to add booking details</p>
+
+          <div className="space-y-4">
+            {events.length === 0 ? (
+              <div className="card text-center py-12">
+                <p className="text-dark-muted">No events available</p>
+              </div>
+            ) : (
+              events.map((event) => (
+                <div key={event.id} className="card">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <h3 className="text-lg font-bold text-dark-text">{event.name}</h3>
+                      <p className="text-sm text-dark-muted">{event.location}</p>
+                      <p className="text-sm text-dark-muted mt-1">
+                        {new Date(event.date).toLocaleDateString()} • Commission: ₹{event.commission_per_ticket} per ticket
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setSelectedEvent(event);
+                        setShowTransactionForm(true);
+                      }}
+                      className="btn-primary flex items-center gap-2"
+                    >
+                      <Plus className="w-4 h-4" />
+                      Add Booking
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

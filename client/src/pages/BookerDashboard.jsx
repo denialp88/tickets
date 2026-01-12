@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import { LogOut, Plus, DollarSign, TrendingUp, Ticket, Clock, CheckCircle, History, Calendar } from 'lucide-react';
-import { eventsAPI, bookerAPI, transactionsAPI } from '../utils/api';
+import { LogOut, Plus, DollarSign, TrendingUp, Ticket, Clock, CheckCircle, History } from 'lucide-react';
+import { eventsAPI, bookerAPI } from '../utils/api';
 import TransactionForm from '../components/TransactionForm';
 
 function BookerDashboard({ user, onLogout }) {
   const [events, setEvents] = useState([]);
   const [earnings, setEarnings] = useState(null);
-  const [transactions, setTransactions] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [showTransactionForm, setShowTransactionForm] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
@@ -18,15 +17,12 @@ function BookerDashboard({ user, onLogout }) {
 
   const loadEvents = async () => {
     try {
-      const [eventsRes, earningsRes, transactionsRes] = await Promise.all([
+      const [eventsRes, earningsRes] = await Promise.all([
         eventsAPI.getAll(),
-        bookerAPI.getEarnings(),
-        transactionsAPI.getAll().catch(() => ({ data: [] })) // Bookers might not have access
+        bookerAPI.getEarnings()
       ]);
       setEvents(eventsRes.data);
       setEarnings(earningsRes.data);
-      // Filter to only show booker's own transactions if available
-      setTransactions(transactionsRes.data || []);
     } catch (error) {
       console.error('Failed to load data:', error);
     } finally {

@@ -3,6 +3,8 @@ import { X, Upload, Image as ImageIcon } from 'lucide-react';
 import { transactionsAPI } from '../utils/api';
 
 function TransactionForm({ event, onClose, onSuccess }) {
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const isAdmin = user.role === 'admin';
   const [formData, setFormData] = useState({
     event_id: event.id,
     transaction_type: 'purchase',
@@ -302,19 +304,21 @@ function TransactionForm({ event, onClose, onSuccess }) {
             />
           </div>
 
-          <div className="flex items-center">
-            <input
-              id="no_commission"
-              name="no_commission"
-              type="checkbox"
-              checked={formData.no_commission}
-              onChange={handleChange}
-              className="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
-            />
-            <label htmlFor="no_commission" className="ml-2 block text-sm text-dark-text">
-              No Commission (Admin Override)
-            </label>
-          </div>
+          {isAdmin && (
+            <div className="flex items-center">
+              <input
+                id="no_commission"
+                name="no_commission"
+                type="checkbox"
+                checked={formData.no_commission}
+                onChange={handleChange}
+                className="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500"
+              />
+              <label htmlFor="no_commission" className="ml-2 block text-sm text-dark-text">
+                No Commission (Admin Override)
+              </label>
+            </div>
+          )}
 
           <div className="flex gap-3">
             <button

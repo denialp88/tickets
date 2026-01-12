@@ -108,7 +108,7 @@ function EventDetails({ eventData, onClose, onAddTransaction }) {
 
         {transactions.length === 0 ? (
           <div className="card text-center py-12">
-            <p className="text-gray-600">No transactions yet</p>
+            <p className="text-dark-muted">No transactions yet</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -117,18 +117,18 @@ function EventDetails({ eventData, onClose, onAddTransaction }) {
                 <div className="flex justify-between items-start mb-3">
                   <div>
                     <div className="flex items-center gap-2 mb-2">
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                      <span className={`px-3 py-1 rounded-full text-sm font-medium border ${
                         transaction.transaction_type === 'purchase' 
-                          ? 'bg-red-100 text-red-800' 
-                          : 'bg-green-100 text-green-800'
+                          ? 'bg-red-900/30 text-red-400 border-red-800' 
+                          : 'bg-green-900/30 text-green-400 border-green-800'
                       }`}>
                         {transaction.transaction_type === 'purchase' ? 'Purchase' : 'Sale'}
                       </span>
-                      <span className="text-sm text-gray-500">
+                      <span className="text-sm text-dark-muted">
                         {new Date(transaction.transaction_date).toLocaleDateString()}
                       </span>
                     </div>
-                    <h3 className="text-lg font-bold text-gray-800">{transaction.party_name}</h3>
+                    <h3 className="text-lg font-bold text-dark-text">{transaction.party_name}</h3>
                   </div>
                   <button
                     onClick={() => handleDeleteTransaction(transaction.id)}
@@ -140,53 +140,53 @@ function EventDetails({ eventData, onClose, onAddTransaction }) {
 
                 <div className="grid grid-cols-2 gap-4 mb-3">
                   <div>
-                    <p className="text-sm text-gray-600">Tickets</p>
-                    <p className="font-semibold text-gray-800">{transaction.num_tickets}</p>
+                    <p className="text-sm text-dark-muted">Tickets</p>
+                    <p className="font-semibold text-dark-text">{transaction.num_tickets}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600">Price per Ticket</p>
-                    <p className="font-semibold text-gray-800">₹{transaction.price_per_ticket}</p>
+                    <p className="text-sm text-dark-muted">Price per Ticket</p>
+                    <p className="font-semibold text-dark-text">₹{transaction.price_per_ticket}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600">Total Amount</p>
-                    <p className="font-semibold text-gray-800">₹{transaction.total_amount.toFixed(2)}</p>
+                    <p className="text-sm text-dark-muted">Total Amount</p>
+                    <p className="font-semibold text-dark-text">₹{transaction.total_amount.toFixed(2)}</p>
                   </div>
                   {transaction.commission_amount > 0 && (
                     <div>
-                      <p className="text-sm text-gray-600">Commission</p>
-                      <p className="font-semibold text-orange-600">₹{transaction.commission_amount.toFixed(2)}</p>
+                      <p className="text-sm text-dark-muted">Commission</p>
+                      <p className="font-semibold text-orange-400">₹{transaction.commission_amount.toFixed(2)}</p>
                     </div>
                   )}
                 </div>
 
                 {(transaction.party_mobile || transaction.upi_id || transaction.payment_reference) && (
-                  <div className="border-t pt-3 mt-3 space-y-2">
+                  <div className="border-t border-dark-border pt-3 mt-3 space-y-2">
                     {transaction.party_mobile && (
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-600">Mobile:</span>
-                        <span className="font-medium text-gray-800">{transaction.party_mobile}</span>
+                        <span className="text-dark-muted">Mobile:</span>
+                        <span className="font-medium text-dark-text">{transaction.party_mobile}</span>
                       </div>
                     )}
                     {transaction.upi_id && (
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-600">UPI ID:</span>
-                        <span className="font-medium text-gray-800">{transaction.upi_id}</span>
+                        <span className="text-dark-muted">UPI ID:</span>
+                        <span className="font-medium text-dark-text">{transaction.upi_id}</span>
                       </div>
                     )}
                     {transaction.payment_reference && (
                       <div className="flex justify-between text-sm">
-                        <span className="text-gray-600">Reference:</span>
-                        <span className="font-medium text-gray-800">{transaction.payment_reference}</span>
+                        <span className="text-dark-muted">Reference:</span>
+                        <span className="font-medium text-dark-text">{transaction.payment_reference}</span>
                       </div>
                     )}
                   </div>
                 )}
 
                 {transaction.qr_image_path && (
-                  <div className="border-t pt-3 mt-3">
+                  <div className="border-t border-dark-border pt-3 mt-3">
                     <button
-                      onClick={() => setSelectedImage(`http://localhost:3001${transaction.qr_image_path}`)}
-                      className="flex items-center gap-2 text-primary-600 hover:text-primary-700 text-sm font-medium"
+                      onClick={() => setSelectedImage(`https://chabuk-xi-backend.onrender.com${transaction.qr_image_path}`)}
+                      className="flex items-center gap-2 text-primary-400 hover:text-primary-500 text-sm font-medium"
                     >
                       <ImageIcon className="w-4 h-4" />
                       View Payment Screenshot
@@ -195,9 +195,9 @@ function EventDetails({ eventData, onClose, onAddTransaction }) {
                 )}
 
                 {transaction.notes && (
-                  <div className="border-t pt-3 mt-3">
-                    <p className="text-sm text-gray-600">Notes:</p>
-                    <p className="text-sm text-gray-800 mt-1">{transaction.notes}</p>
+                  <div className="border-t border-dark-border pt-3 mt-3">
+                    <p className="text-sm text-dark-muted">Notes:</p>
+                    <p className="text-sm text-dark-text mt-1">{transaction.notes}</p>
                   </div>
                 )}
               </div>

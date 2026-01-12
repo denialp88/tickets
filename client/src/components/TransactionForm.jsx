@@ -105,22 +105,29 @@ function TransactionForm({ event, onClose, onSuccess }) {
             </div>
           )}
 
-          <div>
-            <label htmlFor="transaction_type" className="block text-sm font-medium text-pink-400 mb-2">
-              Transaction Type *
-            </label>
-            <select
-              id="transaction_type"
-              name="transaction_type"
-              value={formData.transaction_type}
-              onChange={handleChange}
-              className="input-field"
-              required
-            >
-              <option value="purchase">Purchase (Bought)</option>
-              <option value="sale">Sale (Sold)</option>
-            </select>
-          </div>
+          {isAdmin ? (
+            <div>
+              <label htmlFor="transaction_type" className="block text-sm font-medium text-pink-400 mb-2">
+                Transaction Type *
+              </label>
+              <select
+                id="transaction_type"
+                name="transaction_type"
+                value={formData.transaction_type}
+                onChange={handleChange}
+                className="input-field"
+                required
+              >
+                <option value="purchase">Purchase (Bought)</option>
+                <option value="sale">Sale (Sold)</option>
+              </select>
+            </div>
+          ) : (
+            <div className="bg-blue-900/20 border border-blue-800 rounded-lg p-4">
+              <p className="text-sm text-blue-400 font-medium">Transaction Type: Purchase (Bought)</p>
+              <p className="text-xs text-dark-muted mt-1">Bookers can only add purchase transactions</p>
+            </div>
+          )}
 
           <div className="grid grid-cols-2 gap-4">
             <div>

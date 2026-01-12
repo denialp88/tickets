@@ -82,12 +82,6 @@ function Login({ onLogin }) {
               {loading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
-
-          <div className="mt-6 p-4 bg-dark-bg/50 rounded-lg border border-dark-border">
-            <p className="text-xs text-dark-text font-medium mb-2">Default Credentials:</p>
-            <p className="text-xs text-dark-muted">Admin: admin / admin123</p>
-            <p className="text-xs text-dark-muted">Booker: booker / booker123</p>
-          </div>
         </div>
       </div>
     </div>

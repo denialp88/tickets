@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
-import { LogOut, Plus, DollarSign, TrendingUp, Ticket, Clock, CheckCircle } from 'lucide-react';
-import { eventsAPI, bookerAPI } from '../utils/api';
+import { LogOut, Plus, DollarSign, TrendingUp, Ticket, Clock, CheckCircle, History, Calendar } from 'lucide-react';
+import { eventsAPI, bookerAPI, transactionsAPI } from '../utils/api';
 import TransactionForm from '../components/TransactionForm';
 
 function BookerDashboard({ user, onLogout }) {
   const [events, setEvents] = useState([]);
   const [earnings, setEarnings] = useState(null);
+  const [transactions, setTransactions] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [showTransactionForm, setShowTransactionForm] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -16,12 +18,15 @@ function BookerDashboard({ user, onLogout }) {
 
   const loadEvents = async () => {
     try {
-      const [eventsRes, earningsRes] = await Promise.all([
+      const [eventsRes, earningsRes, transactionsRes] = await Promise.all([
         eventsAPI.getAll(),
-        bookerAPI.getEarnings()
+        bookerAPI.getEarnings(),
+        transactionsAPI.getAll().catch(() => ({ data: [] })) // Bookers might not have access
       ]);
       setEvents(eventsRes.data);
       setEarnings(earningsRes.data);
+      // Filter to only show booker's own transactions if available
+      setTransactions(transactionsRes.data || []);
     } catch (error) {
       console.error('Failed to load data:', error);
     } finally {
@@ -65,15 +70,73 @@ function BookerDashboard({ user, onLogout }) {
               <h1 className="text-2xl font-bold text-dark-text">Booker Dashboard</h1>
               <p className="text-sm text-dark-muted">Welcome, {user.full_name}</p>
             </div>
-            <button onClick={onLogout} className="btn-secondary flex items-center gap-2">
-              <LogOut className="w-4 h-4" />
-              Logout
-            </button>
+            <div className="flex gap-2">
+              <button 
+                onClick={() => setShowHistory(!showHistory)} 
+                className="btn-secondary flex items-center gap-2"
+              >
+                <History className="w-4 h-4" />
+                {showHistory ? 'Hide History' : 'View History'}
+              </button>
+              <button onClick={onLogout} className="btn-secondary flex items-center gap-2">
+                <LogOut className="w-4 h-4" />
+                Logout
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-6">
+        {showHistory && earnings && (
+          <div className="mb-6">
+            <h2 className="text-xl font-bold text-dark-text mb-4 flex items-center gap-2">
+              <History className="w-6 h-6 text-primary-500" />
+              My Booking History
+            </h2>
+            {earnings.eventEarnings.length === 0 ? (
+              <div className="card text-center py-12">
+                <p className="text-dark-muted">No bookings yet</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {earnings.eventEarnings.map((eventEarning, index) => (
+                  <div key={index} className="card">
+                    <div className="flex items-center justify-between mb-3">
+                      <div>
+                        <h3 className="text-lg font-bold text-dark-text">{eventEarning.eventName}</h3>
+                        <p className="text-sm text-dark-muted">
+                          {eventEarning.transactions} bookings • {eventEarning.tickets} tickets
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm text-dark-muted">Total Commission</p>
+                        <p className="text-xl font-bold text-primary-400">₹{eventEarning.commission.toFixed(2)}</p>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3 pt-3 border-t border-dark-border">
+                      <div className="flex items-center gap-2">
+                        <Clock className="w-4 h-4 text-orange-400" />
+                        <div>
+                          <p className="text-xs text-dark-muted">Pending</p>
+                          <p className="text-sm font-bold text-orange-400">₹{eventEarning.pendingCommission.toFixed(2)}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="w-4 h-4 text-green-400" />
+                        <div>
+                          <p className="text-xs text-dark-muted">Received</p>
+                          <p className="text-sm font-bold text-green-400">₹{eventEarning.paidCommission.toFixed(2)}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {earnings ? (
           <div>
             <h2 className="text-xl font-bold text-dark-text mb-4">My Earnings</h2>

@@ -355,7 +355,8 @@ app.post('/api/transactions', authenticateToken, requireBookerOrAdmin, upload.si
     
     let commissionAmount = 0;
     const noCommissionFlag = no_commission === 'true' || no_commission === true;
-    if (!noCommissionFlag && !event.is_admin_event && event.commission_per_ticket > 0) {
+    // Calculate commission if not explicitly disabled and event has commission rate
+    if (!noCommissionFlag && event.commission_per_ticket > 0) {
       commissionAmount = numTickets * event.commission_per_ticket;
     }
     

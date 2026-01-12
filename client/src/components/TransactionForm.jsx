@@ -50,7 +50,8 @@ function TransactionForm({ event, onClose, onSuccess }) {
     const totalAmount = numTickets * pricePerTicket;
     
     let commissionAmount = 0;
-    if (!formData.no_commission && !event.is_admin_event && event.commission_per_ticket > 0) {
+    // For bookers, always calculate commission (ignore is_admin_event flag)
+    if (!formData.no_commission && event.commission_per_ticket > 0) {
       commissionAmount = numTickets * event.commission_per_ticket;
     }
     
